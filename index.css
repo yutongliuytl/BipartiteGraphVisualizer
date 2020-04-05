@@ -12,9 +12,30 @@
 line{
 	stroke:grey;
 }
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 400px) {
   .graph {
     transform: translate(55px,50px);
+  }
+  .group{
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .love{
+    bottom: 0px;
+    right: 15px;
+  }
+  text{
+    font-size:12px;
+  }
+  #main {
+    text-align: center;
+    height: 90vh;
+    width: 100vw;
+  }
+}
+@media only screen and (max-width: 1000px) and (min-width: 400px) {
+  .graph {
+    transform: translate(60px,50px);
   }
   .group{
     font-size: 12px;
