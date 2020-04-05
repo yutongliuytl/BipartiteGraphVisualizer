@@ -1,0 +1,57 @@
+
+.generate-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 15px;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 4px;
+  height: 30px;
+}
+
+line{
+	stroke:grey;
+}
+@media only screen and (max-width: 1000px) {
+  .graph {
+    transform: translate(55px,50px);
+  }
+  .group{
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .love{
+    bottom: 0px;
+    right: 15px;
+  }
+  text{
+    font-size:12px;
+  }
+  #main {
+    text-align: center;
+    height: 90vh;
+    width: 100vw;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  .graph {
+    transform: translate(210px,100px);
+  }
+  .group{
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .love{
+    position: fixed;
+    bottom: 0px;
+    right: 15px;
+  }
+  text{
+    font-size:18px;
+  }
+  #main {
+    text-align: center;
+    height: 80vh;
+    width: 100vw;
+  }
+}
