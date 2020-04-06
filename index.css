@@ -9,6 +9,11 @@
   height: 30px;
 }
 
+.generate-button:hover {
+  background-color: black;
+  color: white;
+}
+
 line{
 	stroke:grey;
 }

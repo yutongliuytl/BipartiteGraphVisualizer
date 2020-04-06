@@ -24,7 +24,7 @@ function randomData(){
       if (count === lastIndex){
         data.push([ln, rn, total]);
       } else {
-        weight = Math.max(5, Math.floor(total*0.7*Math.random()));
+        weight = Math.max(5, Math.floor(total*0.75*Math.random()));
         data.push([ln, rn, weight]);
       }
       total -= weight;

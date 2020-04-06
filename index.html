@@ -2,7 +2,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="index.css">
   <head>
-    <link rel="icon" href="https://img.icons8.com/cute-clipart/64/000000/share.png" type="image/x-icon"/>
+    <link rel="icon" href="images/circle.png" type="image/x-icon"/>
     <title>Bipartite Graph Visualizer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -20,10 +20,10 @@
           <a class="navbar-brand" style="color: black;" href="#"><b>Bipartite Graph Visualizer</b></a>
         </div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Graph</a></li>
-          <li><a href="#">Algorithm</a></li>
-          <li><a href="#">Results</a></li>
-          <li><button class="generate-button" type="button" onclick='update()'>Random</button></li>
+          <li id="tab1" class="active"><a href="#" onclick="goGraphTab()">Graph</a></li>
+          <li id="tab2"><a href="#" onclick="goAlgoTab()">Algorithm</a></li>
+          <li id="tab3"><a href="#">Results</a></li>
+          <li><button class="generate-button" type="button" onclick="update()">Random</button></li>
         </ul>
       </div>
     </nav>
@@ -34,13 +34,20 @@
           <g transform="translate(250,50)"></g>
         </svg>
       </div>
-      <p class="love">Made with <i class="fas fa-heart"></i> in Montreal</p>
     </div>
+
+    <div id="algorithm" style="display: none; text-align: center;">
+      <h1 style="font-size: large; margin-top: 100px;">Minimum Cost Perfect Matching Algorithm on Bipartite Graph</h1>
+      <img src="images/graph.png" alt="Bipartite Graph">
+    </div>
+
+    <p class="love">Made with <i class="fas fa-heart" style="color: #88CDC5;"></i> in <b>Montreal</b></p>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="javascripts/viz.v1.3.0.min.js"></script>
     <script src="javascripts/generateData.js"></script>
     <script src="javascripts/bipartiteGraph.js"></script>
+    <script src="javascripts/tabHandler.js"></script>
     
   </body>
 </html>
