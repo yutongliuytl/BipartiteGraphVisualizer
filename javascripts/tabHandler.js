@@ -1,4 +1,4 @@
-var graphTab = document.querySelector("#main");
+var graphTab = document.querySelector("#graph");
 var algorithmTab = document.querySelector("#algorithm");
 
 var tab1 = document.querySelector("#tab1");
