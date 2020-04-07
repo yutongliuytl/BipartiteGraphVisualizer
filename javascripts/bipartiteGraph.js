@@ -57,6 +57,10 @@ d3.select(self.frameElement).style("height", "800px");
 
 function update(){
   g.call(bP.data(randomData()))
+
+  g.selectAll(".viz-biPartite-mainBar")
+    .on("mouseover",mouseover)
+    .on("mouseout",mouseout);
   
   g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","group")
     .attr("x",d=>(d.part=="primary"? -label_dist:label_dist))
@@ -65,7 +69,7 @@ function update(){
     .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
 
   g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","percent")
-    .attr("x",d=>(d.part=="primary"? -label_dist*2: label_dist*2))
+    .attr("x",d=>(d.part=="primary"? -label_dist*1.5: label_dist*1.5))
     .attr("y",d=>+6)
     .text(function(d){ return d3.format("0.0%")(d.percent)})
     .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
