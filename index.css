@@ -14,6 +14,10 @@
   color: white;
 }
 
+.generate-button:focus{
+  outline: none;
+}
+
 line{
 	stroke:grey;
 }

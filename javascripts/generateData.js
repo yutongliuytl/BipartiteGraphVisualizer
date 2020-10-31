@@ -10,26 +10,29 @@ function randomData(){
   let leftNodes = ["A", "B", "C", "D"];
   let rightNodes = ["W", "X", "Y", "Z"];
   let data = [];
-  let lastIndex = leftNodes.length - 1;
+  let lastIndexLeft = leftNodes.length - 1;
+  let totalLeft = leftNodes.length * 100;
   
   shuffle(leftNodes);
 
-  leftNodes.forEach(ln => {
-    let total = 100;
-    let count = 0;
+  leftNodes.forEach((ln, leftInd) => {
+    let lastIndexRight = rightNodes.length - 1;
+    let init = totalRight = leftInd === lastIndexLeft ? 
+      totalLeft : Math.max(60, Math.floor(totalLeft * 0.5 * Math.random()));
 
     shuffle(rightNodes);
 
-    rightNodes.forEach(rn => {
-      if (count === lastIndex){
-        data.push([ln, rn, total]);
+    rightNodes.forEach((rn, rightInd) => {
+      if (rightInd === lastIndexRight){
+        data.push([ln, rn, Math.max(0, totalRight)]);
       } else {
-        weight = Math.max(5, Math.floor(total*0.75*Math.random()));
+        weight = Math.max(10, Math.floor(totalRight * 0.5 * Math.random()));
         data.push([ln, rn, weight]);
       }
-      total -= weight;
-      count += 1;
+      totalRight -= weight;
     });
+
+    totalLeft -= init; 
   })
 
   return data

@@ -1,13 +1,13 @@
-var w = window.innerWidth;
-var h = window.innerHeight;
+const w = window.innerWidth;
+const h = window.innerHeight;
 
-var mobile = w >= 1000 ? false:true;
-label_dist = mobile ? 25:50;
+const mobile = w >= 1000 ? false:true;
+const label_dist = mobile ? 25:50;
 
-var color = {A:"#82E0AA", B:"#5DADE2",  C:"#BB8FCE", D:"#16A085"};
-var svg = d3.select("svg").attr("width", w).attr("height", h*.8);
+const color = {A:"#82E0AA", B:"#5DADE2",  C:"#BB8FCE", D:"#16A085"};
+const svg = d3.select("svg").attr("width", w).attr("height", h*.8);
 
-var bP = viz.biPartite()
+const bP = viz.biPartite()
   .data(randomData())
   .min(12)
   .pad(1)
@@ -16,24 +16,24 @@ var bP = viz.biPartite()
   .barSize(35)
   .fill(d=>color[d.primary])
 
-var g = d3.select("g").attr("class","graph").call(bP);
+const g = d3.select("g").attr("class","graph").call(bP);
 
 d3.select(self.frameElement).style("height", "800px");
 
 g.selectAll(".viz-biPartite-mainBar")
-  .on("mouseover",mouseover)
-  .on("mouseout",mouseout);
+  .on("mouseover", mouseover)
+  .on("mouseout", mouseout);
 
 g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","group")
   .attr("x",d=>(d.part=="primary"? -label_dist:label_dist))
-  .attr("y",d=>+6)
+  .attr("y",d=>+6) // half of font-size
   .text(d=>d.key)
   .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
 
-g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","percent")
+g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","value")
   .attr("x",d=>(d.part=="primary"? -label_dist*1.5: label_dist*1.5))
-  .attr("y",d=>+6)
-  .text(function(d){ return d3.format("0.0%")(d.percent)})
+  .attr("y",d=>+6) // half of font-size
+  .text(function(d){ return d.value })
   .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
 
 
@@ -41,16 +41,16 @@ function mouseover(d){
 
   bP.mouseover(d);
   
-  g.selectAll(".viz-biPartite-mainBar").select(".percent")
-  .text(function(d){ return d3.format("0.0%")(d.percent)});
+  g.selectAll(".viz-biPartite-mainBar").select(".value")
+  .text(function(d){ return d.value });
 }
 
 function mouseout(d){
 
   bP.mouseout(d);
   
-  g.selectAll(".viz-biPartite-mainBar").select(".percent")
-  .text(function(d){ return d3.format("0.0%")(d.percent)});
+  g.selectAll(".viz-biPartite-mainBar").select(".value")
+  .text(function(d){ return d.value });
 }
 d3.select(self.frameElement).style("height", "800px");
 
@@ -68,10 +68,10 @@ function update(){
     .text(d=>d.key)
     .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
 
-  g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","percent")
+  g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","value")
     .attr("x",d=>(d.part=="primary"? -label_dist*1.5: label_dist*1.5))
     .attr("y",d=>+6)
-    .text(function(d){ return d3.format("0.0%")(d.percent)})
+    .text(function(d){ return d.value })
     .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
 }
 
