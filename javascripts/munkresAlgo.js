@@ -48,6 +48,8 @@ class BipartiteGraph {
       2: () => this.findUniqueZero(),
       3: () => this.countColAssignments(),
       4: () => this.handleUncoveredZeros(),
+
+      6: () => this.rebalanceWeights(),
     }
 
     let curr = 1;
@@ -124,7 +126,7 @@ class BipartiteGraph {
 
     while(true) {
       let [row, col] = this.getUnusedZero();
-      if (row === -1) return 0;
+      if (row === -1) return 6;
 
       console.log(row, col);
       
@@ -137,7 +139,7 @@ class BipartiteGraph {
       } else {
         this.pathColInit = col;
         this.pathRowInit = row;
-        return 0;
+        return 5;
       }
     }
   }
@@ -161,6 +163,39 @@ class BipartiteGraph {
 
     return -1;
   }
+
+
+  // Step 6
+
+  rebalanceWeights() {
+
+    console.log(this.minMatrix);
+    const minWeight = this.findMinWeight();
+
+    this.minMatrix = this.minMatrix.map((row, i) => {
+      return row.map((weight, j) => {
+        if(this.rowCover.has(i)) weight += minWeight;
+        if(!this.colCover.has(j)) weight -= minWeight;
+        return weight;
+      });
+    });
+
+    return 0;
+    // return 4;
+  }
+
+  findMinWeight() {
+
+    let minValue = Number.MAX_VALUE;
+    this.minMatrix.forEach((row, i) => {
+      row.forEach((weight, j) => {
+        if(!this.rowCover.has(i) && !this.colCover.has(j)) minValue = Math.min(minValue, weight);
+      });
+    });
+
+    return minValue;
+  }
+
 }
 
 // Testing: var test = new BipartiteGraph([['A', 'B', 'C'], ['X', 'Y', 'Z']], [['A', 'Y', 1],['A', 'X', 2], ['A', 'Z', 3], ['B', 'X', 6], ['B', 'Y', 5], ['B', 'Z', 4], ['C', 'X', 9], ['C', 'Y', 8], ['C', 'Z', 7]])
