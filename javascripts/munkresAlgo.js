@@ -20,6 +20,8 @@ class BipartiteGraph {
     this.matchMatrix = this.edgeMatrix.map(row => row.map(val => 0));
     this.rowCover = new Set();
     this.colCover = new Set();
+    this.pathRowInit = null;
+    this.pathColInit = null;
   }
 
   
@@ -44,9 +46,12 @@ class BipartiteGraph {
     const algoSteps = {
       1: () => this.substractMinRow(),
       2: () => this.findUniqueZero(),
+      3: () => this.countColAssignments(),
+      4: () => this.handleUncoveredZeros(),
     }
 
     let curr = 1;
+
     while (true) {
       console.log(curr);
       curr = algoSteps[curr]();
@@ -54,6 +59,8 @@ class BipartiteGraph {
     }
   }
 
+
+  // Step 1
 
   substractMinRow() {
 
@@ -75,10 +82,9 @@ class BipartiteGraph {
   }
 
 
-  findUniqueZero() {
+  // Step 2
 
-    this.rowCover.clear();
-    this.colCover.clear();
+  findUniqueZero() {
 
     this.minMatrix.forEach((row, i) => {
       for(const [j, value] of row.entries()) {
@@ -91,7 +97,69 @@ class BipartiteGraph {
       }
     });
 
-    return 0;
+    this.colCover.clear();
+    this.rowCover.clear();
+
+    return 3;
+  }
+
+
+  // Step 3
+
+  countColAssignments() {
+
+    this.matchMatrix.forEach(row => {
+      row.forEach((match, j) => {
+        if(match && !this.colCover.has(j)) this.colCover.add(j);
+      })
+    })
+
+    return this.colCover.size >= this.first.length ? 0 : 4;
+  }
+
+
+  // Step 4
+
+  handleUncoveredZeros() {
+
+    while(true) {
+      let [row, col] = this.getUnusedZero();
+      if (row === -1) return 0;
+
+      console.log(row, col);
+      
+      this.matchMatrix[row][col] = 2;
+      const assignedCol = this.findAssignedCol(row);
+      if(assignedCol >= 0) {
+        col = assignedCol;
+        this.rowCover.delete(row);
+        this.rowCover.add(col);
+      } else {
+        this.pathColInit = col;
+        this.pathRowInit = row;
+        return 0;
+      }
+    }
+  }
+
+  getUnusedZero() {
+
+    this.minMatrix.forEach((row, i) => {
+      row.forEach((value, j) => {
+        if(!value && !this.rowCover.has(i) && !this.colCover.has(j)) return [i, j];
+      });
+    });
+
+    return [-1, -1];
+  }
+
+  findAssignedCol(row) {
+
+    row.forEach((value, col) => {
+      if(this.matchMatrix[row][col] === 1) return col;
+    })
+
+    return -1;
   }
 }
 
