@@ -48,7 +48,7 @@ class BipartiteGraph {
       2: () => this.findUniqueZero(),
       3: () => this.countColAssignments(),
       4: () => this.handleUncoveredZeros(),
-
+      5: () => this.modifyAssignment(),
       6: () => this.rebalanceWeights(),
     }
 
@@ -99,9 +99,6 @@ class BipartiteGraph {
       }
     });
 
-    this.colCover.clear();
-    this.rowCover.clear();
-
     return 3;
   }
 
@@ -109,6 +106,9 @@ class BipartiteGraph {
   // Step 3
 
   countColAssignments() {
+
+    this.colCover.clear();
+    this.rowCover.clear();
 
     this.matchMatrix.forEach(row => {
       row.forEach((match, j) => {
@@ -157,11 +157,67 @@ class BipartiteGraph {
 
   findAssignedCol(row) {
 
-    row.forEach((value, col) => {
+    this.matchMatrix[row].forEach((_, col) => {
       if(this.matchMatrix[row][col] === 1) return col;
     })
 
     return -1;
+  }
+
+
+  // Step 5
+
+  modifyAssignment() {
+
+    let count = 0;
+    let path = [[this.pathRowInit, this.pathColInit]];
+
+    while(true) {
+      const assignedRow = this.findAssignedRow(path[count][1]);
+      if(assignedRow < 0) break;
+      path.push([assignedRow, path[count][1]]);
+      count++;
+    
+      const unassignedCol = this.findUnassignedMinCol(path[count][0]);
+      path.push([path[count][0], unassignedCol]);
+      count++;
+    }
+
+    this.augmentPath(path);
+    this.eraseUnassigned();
+
+    return 3;
+  }
+
+  findAssignedRow(col) {
+
+    this.matchMatrix.forEach((row, ind) => {
+      if(row[col] === 1) return ind;
+    })
+
+    return -1;
+  }
+
+  findUnassignedMinCol(row) {
+    
+    this.matchMatrix[row].forEach((_, col) => {
+      if(this.matchMatrix[row][col] === 2) return col;
+    })
+
+    return -1;
+  }
+
+  augmentPath(path) {
+
+    path.forEach(([row, col]) => {
+      this.matchMatrix[row][col] = (this.matchMatrix[row][col] === 1) ? 0 : 1;
+    });
+  }
+
+  eraseUnassigned() {
+    this.matchMatrix = this.matchMatrix.map(row => {
+      return row.map(match => (match === 2) ? 0 : match);
+    });
   }
 
 
@@ -180,8 +236,8 @@ class BipartiteGraph {
       });
     });
 
-    return 0;
-    // return 4;
+    // return 0;
+    return 4;
   }
 
   findMinWeight() {
