@@ -43,7 +43,7 @@ class BipartiteGraph {
 
   HungarianAlgo() {
 
-    let count = 20;
+    let count = 50;
     const algoSteps = {
       1: () => this.substractMinRow(),
       2: () => this.findUniqueZero(),
@@ -59,8 +59,11 @@ class BipartiteGraph {
       console.log(`step: ${curr}`);
       curr = algoSteps[curr]();
       count--;
-      if (!curr || !count) break;
+      if(!curr) break;
+      if(!count) throw new Error(`Too many interations.`);
     }
+
+    return this.matchMatrix;
   }
 
 
