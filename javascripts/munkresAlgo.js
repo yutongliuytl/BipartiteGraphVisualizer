@@ -43,7 +43,7 @@ class BipartiteGraph {
 
   HungarianAlgo() {
 
-    let count = 50;
+    let count = 200;
     const algoSteps = {
       1: () => this.substractMinRow(),
       2: () => this.findUniqueZero(),
@@ -55,9 +55,11 @@ class BipartiteGraph {
 
     let curr = 1;
 
+    console.log(this.minMatrix);
     while (true) {
       console.log(`step: ${curr}`);
       curr = algoSteps[curr]();
+      console.log(this.minMatrix);
       count--;
       if(!curr) break;
       if(!count) throw new Error(`Too many interations.`);
@@ -104,6 +106,9 @@ class BipartiteGraph {
       }
     });
 
+    this.colCover.clear();
+    this.rowCover.clear();
+
     return 3;
   }
 
@@ -112,16 +117,13 @@ class BipartiteGraph {
 
   countColAssignments() {
 
-    this.colCover.clear();
-    this.rowCover.clear();
-
     this.matchMatrix.forEach(row => {
       row.forEach((match, j) => {
-        if(match && !this.colCover.has(j)) this.colCover.add(j);
+        if(match) this.colCover.add(j);
       })
     })
 
-    return this.colCover.size >= this.first.length ? 0 : 4;
+    return (this.colCover.size >= this.first.length || this.colCover.size >= this.second.length) ? 0 : 4;
   }
 
 
@@ -132,6 +134,8 @@ class BipartiteGraph {
     while(true) {
       let [row, col] = this.getUnusedZero();
       if (row === -1) return 6;
+
+      console.log(`zero: ${row}, ${col}`);
       
       this.matchMatrix[row][col] = 2;
       const assignedCol = this.findAssignedCol(row);
@@ -189,12 +193,15 @@ class BipartiteGraph {
     this.augmentPath(path);
     this.eraseUnassigned();
 
+    this.colCover.clear();
+    this.rowCover.clear();
+
     return 3;
   }
 
   findAssignedRow(col) {
 
-    for(const [ind, row] of this.minMatrix.entries()) {
+    for(const [ind, row] of this.matchMatrix.entries()) {
       if(row[col] === 1) return ind;
     }
 
@@ -203,7 +210,7 @@ class BipartiteGraph {
 
   findUnassignedMinCol(row) {
     
-    for(const [col, _] of this.minMatrix[row].entries()) {
+    for(const [col, _] of this.matchMatrix[row].entries()) {
       if(this.matchMatrix[row][col] === 2) return col;
     }
 

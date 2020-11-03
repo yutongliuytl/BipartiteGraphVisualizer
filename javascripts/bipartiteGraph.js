@@ -7,8 +7,10 @@ const label_dist = mobile ? 25:50;
 const color = {A:"#82E0AA", B:"#5DADE2",  C:"#BB8FCE", D:"#16A085"};
 const svg = d3.select("svg").attr("width", w).attr("height", h*.8);
 
+let graphData = randomData();
+
 const bP = viz.biPartite()
-  .data(randomData())
+  .data(graphData)
   .min(12)
   .pad(1)
   .height(h*.65)
@@ -56,7 +58,8 @@ d3.select(self.frameElement).style("height", "800px");
 
 
 function update(){
-  g.call(bP.data(randomData()))
+  graphData = randomData();
+  g.call(bP.data(graphData));
 
   g.selectAll(".viz-biPartite-mainBar")
     .on("mouseover",mouseover)
