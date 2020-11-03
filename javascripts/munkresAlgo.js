@@ -43,6 +43,7 @@ class BipartiteGraph {
 
   HungarianAlgo() {
 
+    let count = 20;
     const algoSteps = {
       1: () => this.substractMinRow(),
       2: () => this.findUniqueZero(),
@@ -55,9 +56,10 @@ class BipartiteGraph {
     let curr = 1;
 
     while (true) {
-      console.log(curr);
+      console.log(`step: ${curr}`);
       curr = algoSteps[curr]();
-      if (!curr) break;
+      count--;
+      if (!curr || !count) break;
     }
   }
 
@@ -127,15 +129,13 @@ class BipartiteGraph {
     while(true) {
       let [row, col] = this.getUnusedZero();
       if (row === -1) return 6;
-
-      console.log(row, col);
       
       this.matchMatrix[row][col] = 2;
       const assignedCol = this.findAssignedCol(row);
       if(assignedCol >= 0) {
         col = assignedCol;
-        this.rowCover.delete(row);
-        this.rowCover.add(col);
+        this.colCover.delete(col);
+        this.rowCover.add(row);
       } else {
         this.pathColInit = col;
         this.pathRowInit = row;
@@ -146,20 +146,20 @@ class BipartiteGraph {
 
   getUnusedZero() {
 
-    this.minMatrix.forEach((row, i) => {
-      row.forEach((value, j) => {
+    for(const [i, row] of this.minMatrix.entries()) {
+      for(const [j, value] of row.entries()) {
         if(!value && !this.rowCover.has(i) && !this.colCover.has(j)) return [i, j];
-      });
-    });
+      };
+    };
 
     return [-1, -1];
   }
 
   findAssignedCol(row) {
 
-    this.matchMatrix[row].forEach((_, col) => {
+    for(const [col, _] of this.minMatrix[row].entries()) {
       if(this.matchMatrix[row][col] === 1) return col;
-    })
+    }
 
     return -1;
   }
@@ -191,18 +191,18 @@ class BipartiteGraph {
 
   findAssignedRow(col) {
 
-    this.matchMatrix.forEach((row, ind) => {
+    for(const [ind, row] of this.minMatrix.entries()) {
       if(row[col] === 1) return ind;
-    })
+    }
 
     return -1;
   }
 
   findUnassignedMinCol(row) {
     
-    this.matchMatrix[row].forEach((_, col) => {
+    for(const [col, _] of this.minMatrix[row].entries()) {
       if(this.matchMatrix[row][col] === 2) return col;
-    })
+    }
 
     return -1;
   }
@@ -225,7 +225,6 @@ class BipartiteGraph {
 
   rebalanceWeights() {
 
-    console.log(this.minMatrix);
     const minWeight = this.findMinWeight();
 
     this.minMatrix = this.minMatrix.map((row, i) => {
