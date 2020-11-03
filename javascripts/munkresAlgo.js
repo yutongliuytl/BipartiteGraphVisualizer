@@ -245,7 +245,6 @@ class BipartiteGraph {
       });
     });
 
-    // return 0;
     return 4;
   }
 
@@ -261,6 +260,40 @@ class BipartiteGraph {
     return minValue;
   }
 
+
+  // Convert back to matching and return matching + cost
+
+  convertData(matchMatrix) {
+    
+    let matchings = [];
+    let cost = 0;
+
+    matchMatrix.forEach((row, i) => {
+
+      let hasMatch = false;
+      row.forEach((match, j) => {
+        if(match) {
+          matchings.push([this.first[i], this.second[j]]);
+          cost += this.edgeMatrix[i][j];
+          hasMatch = true;
+        }
+      });
+
+      if (!hasMatch) throw new Error(`no matches found for node ${this.first[i]}.`);
+    });
+
+    return { matchings, cost };
+  }
+}
+
+
+const solve = () => {
+
+  const bpGraph = new BipartiteGraph([leftNodes, rightNodes], graphData);
+  const matchingMatrix = bpGraph.HungarianAlgo();
+  console.log(matchingMatrix);
+  const results = bpGraph.convertData(matchingMatrix);
+  console.log(results);
 }
 
 // Testing: var test = new BipartiteGraph([['A', 'B', 'C'], ['X', 'Y', 'Z']], [['A', 'Y', 1],['A', 'X', 2], ['A', 'Z', 3], ['B', 'X', 6], ['B', 'Y', 5], ['B', 'Z', 4], ['C', 'X', 9], ['C', 'Y', 8], ['C', 'Z', 7]])
