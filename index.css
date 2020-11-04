@@ -14,26 +14,30 @@
   color: white;
 }
 
-.generate-button:focus{
+.generate-button:focus {
   outline: none;
 }
 
-line{
+.zoom {
+  animation: zoom 3s ease-in-out;
+}
+
+line {
 	stroke:grey;
 }
 @media only screen and (max-width: 400px) {
   .graph {
     transform: translate(55px,50px);
   }
-  .group{
+  .group {
     font-size: 12px;
     font-weight: 700;
   }
-  .love{
+  .love {
     bottom: 0px;
     right: 15px;
   }
-  text{
+  text {
     font-size:12px;
   }
   #main {
@@ -41,10 +45,10 @@ line{
     height: 90vh;
     width: 100vw;
   }
-  #algorithm-graph-img{
+  #algorithm-graph-img {
     width: 80vw;
   }
-  #algorithm-graph-title{
+  #algorithm-graph-title {
     margin-left: 25px;
     margin-right: 25px;
   }
@@ -53,15 +57,15 @@ line{
   .graph {
     transform: translate(60px,50px);
   }
-  .group{
+  .group {
     font-size: 12px;
     font-weight: 700;
   }
-  .love{
+  .love {
     bottom: 0px;
     right: 15px;
   }
-  text{
+  text {
     font-size:12px;
   }
   #main {
@@ -69,11 +73,11 @@ line{
     height: 90vh;
     width: 100vw;
   }
-  #algorithm-graph-title{
+  #algorithm-graph-title {
     margin-left: 25px;
     margin-right: 25px;
   }
-  #algorithm-graph-img{
+  #algorithm-graph-img {
     width: 80vw;
   }
 }
@@ -81,16 +85,16 @@ line{
   .graph {
     transform: translate(210px,100px);
   }
-  .group{
+  .group {
     font-size: 18px;
     font-weight: 700;
   }
-  .love{
+  .love {
     position: fixed;
     bottom: 0px;
     right: 15px;
   }
-  text{
+  text {
     font-size:18px;
   }
   #main {
@@ -98,4 +102,10 @@ line{
     height: 80vh;
     width: 100vw;
   }
+}
+
+
+@keyframes zoom {
+  0%, 100% {transform: scale(1);}
+  50% {transform: scale(2);}
 }

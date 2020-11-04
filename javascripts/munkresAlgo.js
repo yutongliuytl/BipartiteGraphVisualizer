@@ -294,6 +294,23 @@ const solve = () => {
   console.log(matchingMatrix);
   const results = bpGraph.convertData(matchingMatrix);
   console.log(results);
+
+  results.matchings.forEach(matching => {
+    const textColor = color[matching[0]];
+    console.log(textColor);
+    matching.forEach(elem => {
+      document.getElementById(elem).classList.add('zoom');
+      document.getElementById(elem).style.fill = textColor;
+      document.getElementById(`${elem}-val`).style.display = 'none';
+    });
+    
+    setTimeout(() => {
+      matching.forEach(elem => {
+        document.getElementById(elem).classList.remove('zoom');
+        document.getElementById(`${elem}-val`).style.display = '';
+      });
+    }, 3000);
+  });
 }
 
 // Testing: var test = new BipartiteGraph([['A', 'B', 'C'], ['X', 'Y', 'Z']], [['A', 'Y', 1],['A', 'X', 2], ['A', 'Z', 3], ['B', 'X', 6], ['B', 'Y', 5], ['B', 'Z', 4], ['C', 'X', 9], ['C', 'Y', 8], ['C', 'Z', 7]])

@@ -16,7 +16,7 @@ const bP = viz.biPartite()
   .height(h*.65)
   .width(w*.7)
   .barSize(35)
-  .fill(d=>color[d.primary])
+  .fill(d => color[d.primary])
 
 const g = d3.select("g").attr("class","graph").call(bP);
 
@@ -27,16 +27,18 @@ g.selectAll(".viz-biPartite-mainBar")
   .on("mouseout", mouseout);
 
 g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","group")
-  .attr("x",d=>(d.part=="primary"? -label_dist:label_dist))
-  .attr("y",d=>+6) // half of font-size
-  .text(d=>d.key)
-  .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+  .attr("x", d => (d.part=="primary" ? -label_dist:label_dist))
+  .attr("y", d => +6) // half of font-size
+  .text(d => d.key)
+  .attr("id", d => d.key)
+  .attr("text-anchor", d => (d.part === "primary" ? "end":"start"));
 
 g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","value")
-  .attr("x",d=>(d.part=="primary"? -label_dist*1.5: label_dist*1.5))
-  .attr("y",d=>+6) // half of font-size
-  .text(function(d){ return d.value })
-  .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+  .attr("x", d => (d.part=="primary"? -label_dist*1.5: label_dist*1.5))
+  .attr("y", d => +6) // half of font-size
+  .text(d => d.value)
+  .attr("id", d => `${d.key}-val`)
+  .attr("text-anchor", d => (d.part === "primary"? "end" : "start"));
 
 
 function mouseover(d){
@@ -44,7 +46,7 @@ function mouseover(d){
   bP.mouseover(d);
   
   g.selectAll(".viz-biPartite-mainBar").select(".value")
-  .text(function(d){ return d.value });
+  .text(d => d.value);
 }
 
 function mouseout(d){
@@ -52,7 +54,7 @@ function mouseout(d){
   bP.mouseout(d);
   
   g.selectAll(".viz-biPartite-mainBar").select(".value")
-  .text(function(d){ return d.value });
+  .text(d => d.value);
 }
 d3.select(self.frameElement).style("height", "800px");
 
@@ -62,19 +64,21 @@ function update(){
   g.call(bP.data(graphData));
 
   g.selectAll(".viz-biPartite-mainBar")
-    .on("mouseover",mouseover)
-    .on("mouseout",mouseout);
+    .on("mouseover", mouseover)
+    .on("mouseout", mouseout);
   
   g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","group")
-    .attr("x",d=>(d.part=="primary"? -label_dist:label_dist))
-    .attr("y",d=>+6)
-    .text(d=>d.key)
-    .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+    .attr("x", d => (d.part === "primary" ? -label_dist:label_dist))
+    .attr("y", d => +6)
+    .text(d => d.key)
+    .attr("id", d => d.key)
+    .attr("text-anchor", d => (d.part === "primary" ? "end":"start"));
 
   g.selectAll(".viz-biPartite-mainBar").append("text").attr("class","value")
-    .attr("x",d=>(d.part=="primary"? -label_dist*1.5: label_dist*1.5))
-    .attr("y",d=>+6)
-    .text(function(d){ return d.value })
-    .attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+    .attr("x", d => (d.part === "primary" ? -label_dist*1.5:label_dist*1.5))
+    .attr("y", d => +6)
+    .text(d => d.value)
+    .attr("id", d => `${d.key}-val`)
+    .attr("text-anchor", d => (d.part === "primary" ? "end":"start"));
 }
 
