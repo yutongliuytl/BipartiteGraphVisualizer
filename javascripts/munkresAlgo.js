@@ -302,6 +302,7 @@ const solve = () => {
       document.getElementById(elem).classList.add('zoom');
       document.getElementById(elem).style.fill = textColor;
       document.getElementById(`${elem}-val`).style.display = 'none';
+      document.getElementById(`${elem}-val`).style.fill = textColor;
     });
     
     setTimeout(() => {

@@ -4,7 +4,7 @@ const h = window.innerHeight;
 const mobile = w >= 1000 ? false:true;
 const label_dist = mobile ? 25:50;
 
-const color = {A:"#82E0AA", B:"#5DADE2",  C:"#BB8FCE", D:"#16A085"};
+const color = {A:"#FFCC88", B:"#82E0AA",  C:"#61ABFF", D:"#BB8FCE"};
 const svg = d3.select("svg").attr("width", w).attr("height", h*.8);
 
 let graphData = randomData();
